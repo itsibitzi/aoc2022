@@ -1,5 +1,7 @@
 use std::fs;
 
+use common::{elapsed, start_timer};
+
 fn part_1(file_text: &str) -> u32 {
     let mut current_total = 0;
 
@@ -44,8 +46,11 @@ fn part_2(file_text: &str) -> u32 {
 }
 
 fn main() {
-    let file_text = fs::read_to_string("input.txt").unwrap();
+    let file_text = fs::read_to_string("day01/input.txt").unwrap();
 
-    println!("Part 1: {}", part_1(&file_text));
-    println!("Part 2: {}", part_2(&file_text));
+    let start_1 = start_timer();
+    println!("Part 1: {} in {}", part_1(&file_text), elapsed(&start_1));
+
+    let start_2 = start_timer();
+    println!("Part 2: {} in {}", part_2(&file_text), elapsed(&start_2));
 }

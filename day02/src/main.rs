@@ -1,5 +1,7 @@
 use std::fs;
 
+use common::{elapsed, start_timer};
+
 const LOSS: u32 = 0;
 const DRAW: u32 = 3;
 const WIN: u32 = 6;
@@ -65,8 +67,19 @@ fn process(file_text: &str, lookup: [[u32; 3]; 3]) -> u32 {
 }
 
 fn main() {
-    let file_text = fs::read_to_string("input.txt").unwrap();
+    let file_text = fs::read_to_string("day02/input.txt").unwrap();
 
-    println!("Part 1: {}", process(&file_text, PART_1_SCORE_MATRIX));
-    println!("Part 2: {}", process(&file_text, PART_2_SCORE_MATRIX));
+    let start_1 = start_timer();
+    println!(
+        "Part 1: {} in {}",
+        process(&file_text, PART_1_SCORE_MATRIX),
+        elapsed(&start_1)
+    );
+
+    let start_2 = start_timer();
+    println!(
+        "Part 2: {} in {}",
+        process(&file_text, PART_2_SCORE_MATRIX),
+        elapsed(&start_2)
+    );
 }

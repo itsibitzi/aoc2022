@@ -12,15 +12,25 @@ fn score_item(item: u8) -> u8 {
     }
 }
 
+// US-ASCII is a 7 bit character representation so our set membership buffer
+// can be a simple boolean array of size 2^7 and membership lookups are O(1)
+// with a extremely small constant factor (array dereference)
 const ASCII_MAX: usize = 0b01111111;
 
 fn part_1(file_text: &str) -> u32 {
     // Use a fixed sized buffer to store if we've already checked a given item
+    // Avoid allocations and allows the set memebership lookup to be constant time
+    //
+    // A bit field would allow a more dense representation but would have different
+    // constant factors due to the masking required during indexing.
+    //
+    // Maybe worth it for the clear function to be smaller?
     let mut already_checked = [false; ASCII_MAX];
 
     file_text.lines().fold(0, |acc, line| {
         let line = line.as_bytes();
         let total = line.len();
+        // LLVM would probably do this for me..
         let half_total = total >> 1;
 
         let compartment_1 = &line[..half_total];
@@ -31,17 +41,15 @@ fn part_1(file_text: &str) -> u32 {
             if already_checked[*item_1 as usize] == false {
                 already_checked[*item_1 as usize] = true;
 
-                for item_2 in compartment_2 {
-                    if item_1 == item_2 {
-                        let score = score_item(*item_1) as u32;
-                        local_acc += score;
-                        break;
-                    }
+                if compartment_2.contains(item_1) {
+                    local_acc += score_item(*item_1) as u32;
                 }
             }
         }
 
+        // Clear out our set membership buffer
         already_checked = [false; ASCII_MAX];
+
         acc + local_acc
     })
 }
