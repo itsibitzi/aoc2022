@@ -51,34 +51,13 @@ fn part_2(file_text: &str) -> u32 {
             let bag_2 = bag_2.as_bytes();
             let bag_3 = bag_3.as_bytes();
 
-            let mut candidate = 0;
-
             for item_1 in bag_1 {
-                let mut in_bag2 = false;
-                for item_2 in bag_2 {
-                    if item_1 == item_2 {
-                        in_bag2 = true;
-                        break;
-                    }
-                }
-
-                let mut in_bag3 = false;
-                for item_3 in bag_3 {
-                    if item_1 == item_3 {
-                        in_bag3 = true;
-                        break;
-                    }
-                }
-
-                if in_bag2 && in_bag3 {
-                    candidate = *item_1;
-                    break;
+                if bag_2.contains(item_1) && bag_3.contains(item_1) {
+                    return acc + score_item(*item_1) as u32;
                 }
             }
 
-            assert_ne!(candidate, 0, "We couldn't find a badge in this group");
-
-            acc + score_item(candidate) as u32
+            panic!("We couldn't find a badge in this group");
         })
 }
 
