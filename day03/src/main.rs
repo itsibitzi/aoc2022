@@ -1,5 +1,6 @@
 use std::fs;
 
+use common::{elapsed, start_timer};
 use itertools::Itertools;
 
 #[inline]
@@ -11,8 +12,11 @@ fn score_item(item: u8) -> u8 {
     }
 }
 
+const ASCII_MAX: usize = 0b01111111;
+
 fn part_1(file_text: &str) -> u32 {
-    let mut already_checked = Vec::<u8>::with_capacity(100);
+    // Use a fixed sized buffer to store if we've already checked a given item
+    let mut already_checked = [false; ASCII_MAX];
 
     file_text.lines().fold(0, |acc, line| {
         let line = line.as_bytes();
@@ -24,8 +28,8 @@ fn part_1(file_text: &str) -> u32 {
 
         let mut local_acc: u32 = 0;
         for item_1 in compartment_1 {
-            if !already_checked.contains(item_1) {
-                already_checked.push(*item_1);
+            if already_checked[*item_1 as usize] == false {
+                already_checked[*item_1 as usize] = true;
 
                 for item_2 in compartment_2 {
                     if item_1 == item_2 {
@@ -37,7 +41,7 @@ fn part_1(file_text: &str) -> u32 {
             }
         }
 
-        already_checked.clear();
+        already_checked = [false; ASCII_MAX];
         acc + local_acc
     })
 }
@@ -62,8 +66,11 @@ fn part_2(file_text: &str) -> u32 {
 }
 
 fn main() {
-    let file_text = fs::read_to_string("input.txt").unwrap();
+    let file_text = fs::read_to_string("day03/input.txt").unwrap();
 
-    println!("Part 1: {}", part_1(&file_text));
-    println!("Part 2: {}", part_2(&file_text));
+    let start_1 = start_timer();
+    println!("Part 1: {} in {}", part_1(&file_text), elapsed(&start_1));
+
+    let start_2 = start_timer();
+    println!("Part 2: {} in {}", part_2(&file_text), elapsed(&start_2));
 }
