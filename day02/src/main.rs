@@ -12,21 +12,21 @@ const SCISSORS: u32 = 3;
 const PART_1_SCORE_MATRIX: [[u32; 3]; 3] = [
     // A - rock
     [
-        ROCK + DRAW, // X - rock
-        ROCK + LOSS, // Y - paper
-        ROCK + WIN,  // Z - scissors
+        ROCK + DRAW, // X - rock (draw)
+        ROCK + LOSS, // Y - paper (loss)
+        ROCK + WIN,  // Z - scissors (win)
     ],
     // B - paper
     [
-        PAPER + WIN,  // X - rock
-        PAPER + DRAW, // Y - paper
-        PAPER + LOSS, // Z - scissors
+        PAPER + WIN,  // X - rock (win)
+        PAPER + DRAW, // Y - paper (draw)
+        PAPER + LOSS, // Z - scissors (loss)
     ],
     // C - scissors
     [
-        SCISSORS + LOSS, // X - rock
-        SCISSORS + WIN,  // Y - paper
-        SCISSORS + DRAW, // Z - scissors
+        SCISSORS + LOSS, // X - rock (loss)
+        SCISSORS + WIN,  // Y - paper (win)
+        SCISSORS + DRAW, // Z - scissors (draw)
     ],
 ];
 
