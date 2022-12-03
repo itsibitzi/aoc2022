@@ -8,7 +8,6 @@ const ROCK: u32 = 1;
 const PAPER: u32 = 2;
 const SCISSORS: u32 = 3;
 
-#[allow(dead_code)]
 const PART_1_SCORE_MATRIX: [[u32; 3]; 3] = [
     // A - rock
     [
