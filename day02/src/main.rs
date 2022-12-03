@@ -51,19 +51,23 @@ const PART_2_SCORE_MATRIX: [[u32; 3]; 3] = [
     ],
 ];
 
-fn main() {
-    let file_text = fs::read_to_string("input.txt").unwrap();
-
-    let score: u32 = file_text.lines().fold(0, |acc, line| {
+#[inline]
+fn process(file_text: &str, lookup: [[u32; 3]; 3]) -> u32 {
+    file_text.lines().fold(0, |acc, line| {
         let opponent_move = line.as_bytes()[0];
         let your_move = line.as_bytes()[2];
 
         let opponent_index = opponent_move - b'A';
         let your_index = your_move - b'X';
 
-        let score_row = PART_2_SCORE_MATRIX[opponent_index as usize];
+        let score_row = lookup[opponent_index as usize];
         acc + score_row[your_index as usize]
-    });
+    })
+}
 
-    println!("{score}");
+fn main() {
+    let file_text = fs::read_to_string("input.txt").unwrap();
+
+    println!("Part 1: {}", process(&file_text, PART_1_SCORE_MATRIX));
+    println!("Part 2: {}", process(&file_text, PART_2_SCORE_MATRIX));
 }
