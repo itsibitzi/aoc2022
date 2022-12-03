@@ -25,14 +25,22 @@ fn part_1(file_text: &str) -> u32 {
 fn part_2(file_text: &str) -> u32 {
     let mut current_total = 0;
 
-    // We could store the top 3 in some values here
-    // which would mean we don't have to do the sort/reverse
-    // at the end but I'm too lazy to rework this.
-    let mut calories = vec![];
+    let mut calories_1 = 0;
+    let mut calories_2 = 0;
+    let mut calories_3 = 0;
 
     file_text.lines().for_each(|line| {
         if line == "\n" || line == "" {
-            calories.push(current_total);
+            if current_total > calories_1 {
+                calories_3 = calories_2;
+                calories_2 = calories_1;
+                calories_1 = current_total;
+            } else if current_total > calories_2 {
+                calories_3 = calories_2;
+                calories_2 = current_total;
+            } else if current_total > calories_3 {
+                calories_3 = current_total;
+            }
             current_total = 0;
         } else {
             let value: u32 = line.parse().unwrap();
@@ -40,9 +48,7 @@ fn part_2(file_text: &str) -> u32 {
         }
     });
 
-    calories.sort();
-    calories.reverse();
-    calories[0] + calories[1] + calories[2]
+    calories_1 + calories_2 + calories_3
 }
 
 fn main() {
