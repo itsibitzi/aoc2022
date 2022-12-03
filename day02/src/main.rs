@@ -61,8 +61,8 @@ fn main() {
         let opponent_index = opponent_move - b'A';
         let your_index = your_move - b'X';
 
-        let row = PART_2_SCORE_MATRIX[opponent_index as usize];
-        acc + row[your_index as usize]
+        let score_row = PART_2_SCORE_MATRIX[opponent_index as usize];
+        acc + score_row[your_index as usize]
     });
 
     println!("{score}");
