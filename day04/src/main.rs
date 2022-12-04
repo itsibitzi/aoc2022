@@ -14,7 +14,7 @@ impl Comparison for Part1 {
         let b1 = buf[2];
         let b2 = buf[3];
 
-        (a1 <= b2 && a2 >= b2) || (b1 <= a1 && b2 >= a2)
+        (a1 <= b1 && a2 >= b2) || (b1 <= a1 && b2 >= a2)
     }
 }
 
