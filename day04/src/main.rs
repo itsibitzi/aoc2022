@@ -2,6 +2,7 @@ use std::{fs::File, io::Read};
 
 use common::{elapsed, start_timer};
 
+// Trait so I can monomorphise the `process` function, avoiding a rewrite
 trait Comparison {
     fn compare(buf: &[u8; 4]) -> bool;
 }
@@ -30,7 +31,7 @@ impl Comparison for Part2 {
     }
 }
 
-fn part_1_faster<T: Comparison>(file_bytes: &[u8]) -> u32 {
+fn process<T: Comparison>(file_bytes: &[u8]) -> u32 {
     // none of the numbers in the real data are larger than (10^2 - 1) so a two slot parse buffer
     let mut ip_buf: [u8; 2] = [0; 2];
     let mut ipb_idx = 0;
@@ -81,14 +82,14 @@ fn main() {
     let start_1_f = start_timer();
     println!(
         "Part 1: {} in {}",
-        part_1_faster::<Part1>(&buffer),
+        process::<Part1>(&buffer),
         elapsed(&start_1_f)
     );
 
     let start_2_f = start_timer();
     println!(
         "Part 2: {} in {}",
-        part_1_faster::<Part2>(&buffer),
+        process::<Part2>(&buffer),
         elapsed(&start_2_f)
     );
 }
