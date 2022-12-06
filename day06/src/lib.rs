@@ -37,3 +37,22 @@ pub fn part_1_basic(bytes: &[u8], packet_size: usize) -> usize {
         .unwrap()
         + packet_size
 }
+
+pub fn part_1_unrolled(bytes: &[u8]) -> usize {
+    bytes
+        .windows(4)
+        .position(|window| {
+            !(// 0 -> others
+            window[0] == window[1] || 
+            window[0] == window[2] || 
+            window[0] == window[3] ||
+            // 1 -> others
+            window[1] == window[2] || 
+            window[1] == window[3] ||
+            // 2 -> others
+            window[2] == window[3])
+            // 3 -> others has already been done
+        })
+        .unwrap()
+        + 4 
+}
